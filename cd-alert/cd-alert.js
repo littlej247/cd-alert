@@ -10,21 +10,20 @@
     function createElement(){
      
         const ok = document.createElement('a');
-        ok.setAttribute('class','cd-ok w3-button w3-theme w3-margin-bottom');
-        ok.setAttribute('style','display: block;');
+        ok.setAttribute('class','cd-ok w3-button w3-theme w3-margin w3-third');
+        ok.setAttribute('style','display: block; float: right;margin-top: unset!important;');
         ok.innerText = 'OK';
               
         const cancel = document.createElement('a');
-        cancel.setAttribute('class','cd-cancel w3-button w3-theme w3-margin-bottom');
-        cancel.setAttribute('style','display: block;');
+        cancel.setAttribute('class','cd-cancel w3-button w3-theme w3-margin w3-third w3-hide');
+        cancel.setAttribute('style','display: block; float: right;margin-top: unset!important;');
         cancel.innerText = 'Cancel';
         
         const footer = document.createElement('footer');
         footer.setAttribute('class','w3-container w3-theme-d5');
         footer.setAttribute('style','text-align: -webkit-right;');
-        footer.appendChild(document.createElement('p'));
-        footer.firstChild.appendChild(ok);
-        footer.firstChild.appendChild(cancel);
+        footer.appendChild(ok);
+        footer.appendChild(cancel);
         
         const body = document.createElement('body');
         body.setAttribute('class','w3-container w3-theme-d5 w3-padding');
@@ -83,12 +82,23 @@
     */
     global.CD.alert = function alert(message, title, type, callback, options){
         
+        //set defaults
         if (title == null)title=getRandomTitle();
         
+
         var dialog = createElement();
-    
-        dialog.querySelector('header').firstChild.innerHTML = title;
+
+        //apply arguments
+            //message
         dialog.querySelector('body').innerHTML = message;
+            //title
+        dialog.querySelector('header').firstChild.innerHTML = title;
+            //type
+        if (type == 'cancel'){
+            dialog.querySelector('.cd-cancel').classList.remove('w3-hide');
+        } else {    //default 'ok' type
+                
+        }
   
         if (callback == null) {
             dialog.querySelector('.cd-ok').onclick = ()=>{
