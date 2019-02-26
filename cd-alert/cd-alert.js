@@ -5,7 +5,13 @@
     
     //Abort if CD.alert exists
     if (global.CD.alert != undefined){console.error('CD.alert already defined. cd-alert.js is aborting.'); return;};
-            
+
+    //removes the element from the dom when done.
+    function destroy(dialog){
+        dialog.parentNode.removeChild(dialog); 
+        return true;
+    }
+
     //Get a fresh alert element
     function createElement(){
      
@@ -42,6 +48,10 @@
         root.setAttribute('class', 'w3-modal');
         root.setAttribute('style', 'z-index: 10;word-wrap: break-word;display: block;');
         root.appendChild(popup);
+
+        //Append 'destroy' function & body properties to Element
+        Object.defineProperty(root, 'destroy', {value: function(){return destroy(root);}}  );
+        Object.defineProperty(root, 'body', {value: root.querySelector('body')}  );
         
         return root;
     };
@@ -61,11 +71,7 @@
     }
     
     
-    //removes the element from the dom when done.
-    function destroy(dialog){
-        dialog.parentNode.removeChild(dialog); 
-        return true;
-    }
+
     
    /* alert function: creates a popup dialog box to prompt the user for input
     *
@@ -96,31 +102,33 @@
             //type
         if (type == 'cancel'){
             dialog.querySelector('.cd-cancel').classList.remove('w3-hide');
+        } else if (type == 'none'){
+            dialog.querySelector('.cd-ok').classList.add('w3-hide');
         } else {    //default 'ok' type
                 
         }
   
+        //setup buttons
         if (callback == null) {
-            dialog.querySelector('.cd-ok').onclick = ()=>{
-                dialog.parentNode.removeChild(dialog);                          
-            };
+            dialog.querySelector('.cd-ok'       ).onclick = ()=>{      dialog.parentNode.removeChild(dialog);    };
+            dialog.querySelector('.cd-cancel'   ).onclick = ()=>{      dialog.parentNode.removeChild(dialog);    };
         } else {
             dialog.querySelector('.cd-ok').onclick = ()=>{
-            
-                var clone = dialog //.closest('.w3-modal');
-               // cloneNode(true);
                 dialog.parentNode.removeChild(dialog);
-                callback(true, clone);
+                callback(true, dialog);
                                                                                 
             };
+            dialog.querySelector('.cd-cancel').onclick = ()=>{
+                dialog
+               //because JS is a garbage collected language, the dialog should remain in memory until it is no longer being referenced.
+                dialog.parentNode.removeChild(dialog);
+                callback(false, dialog);
+                                                                                
+            };            
         };
         
         document.querySelector('body').appendChild(dialog);
-        
-        
-        //Append 'destroy' function to dialog Element
-        Object.defineProperty(dialog, 'destroy', function(){return destroy(dialog)}  );
-        
+    
         return dialog;
     } 
 

@@ -8,32 +8,81 @@
   <script>
       function viewCode(t){
          CD.alert( 
-            '<textarea style=\'min-width: -webkit-fill-available;max-width: -webkit-fill-available;min-height: 100px;\'>'+t.previousElementSibling.getAttribute('onclick')+'</textarea>',
+            '<textarea style=\'min-width: -webkit-fill-available;max-width: -webkit-fill-available;min-height: 230px;\'>'+t.previousElementSibling.getAttribute('onclick')+'</textarea>',
             'Source Code'
          );
       }
   </script>
 </head>
-<body>
+<body class="w3-theme-d4">
     <div class="w3-content" style="max-width:1400px">
-        <h1 class="w3-center w3-row">cd-alert.js Example Usage</h1>
+        <h1 class="w3-center w3-row">cd-alert.js Example Usage
+            <h4 style="margin-top: 0px;position: absolute;top: 0px;right: 0px;" class="w3-button" onclick="window.open('https://github.com/littlej247/cd-alert')">
+                github <img src="http://pluspng.com/img-png/github-octocat-png-the-20-cooler-octocat-896.png" style="height: 60px;"\>
+            </h4>
+        </h1>
         <div class="w3-row">
 
             <div class="w3-third"><div class="w3-container w3-card w3-white w3-round w3-margin">
                 <h4>Simple Message</h4>
                 <p>A simple message box with no title or additional options set</p>
-                <button class="w3-block w3-button w3-margin-bottom w3-theme" onclick="CD.alert('Some simple testing text..');">Click Me</button>
+                <button class="w3-block w3-button w3-margin-bottom w3-theme" onclick="CD.alert('Some simple testing text..');">Try it »</button>
                 <button class="w3-block w3-button w3-margin-bottom w3-theme" onclick="viewCode(this);">View Code</button>
             </div></div>
 
             <div class="w3-third"><div class="w3-container w3-card w3-white w3-round w3-margin">
                 <h4>Title and Callback</h4>
                 <p>Built on the prior, this one includes a message title and callback.</p>
-                <button class="w3-block w3-button w3-margin-bottom w3-theme" onclick="CD.alert('Clicking <b>OK</b> will trigger the callback!','Fancy Title I AM..','ok', function(){ CD.alert('You clicked OK!','Callback Title'); });">Click Me</button>
+                <button class="w3-block w3-button w3-margin-bottom w3-theme" onclick="CD.alert('Clicking <b>OK</b> will trigger the callback!','Fancy Title I AM..','ok', function(){ CD.alert('You clicked OK!','Callback Title'); });">Try it »</button>
                 <button class="w3-block w3-button w3-margin-bottom w3-theme" onclick="viewCode(this);">View Code</button>
             </div></div>
 
+            <div class="w3-third"><div class="w3-container w3-card w3-white w3-round w3-margin">
+                <h4>Cancel Option</h4>
+                <p>Make a decision based on response</p><br>
+                <button class="w3-block w3-button w3-margin-bottom w3-theme" onclick="CD.alert('If you like cats click OK. <br> If you like dogs click Cancel',
+    'Cats? or Dogs?',
+    'cancel',
+    function(ok){
+        if (ok){
+            CD.alert('You clicked OK! Cats are the best.','Purr');
+        }else{
+            CD.alert('You clicked Cancel! Dogs are great too.','Woof');
+        } 
+    }
+);">Try it »</button>
+                <button class="w3-block w3-button w3-margin-bottom w3-theme" onclick="viewCode(this);">View Code</button>
+            </div></div>
     
+            <div class="w3-third"><div class="w3-container w3-card w3-white w3-round w3-margin">
+                <h4>Buttonless Footer</h4>
+                <p>Setting the third argument to 'none' hides the buttons in the footer. Usefull for making loading screens.</p>
+                <button class="w3-block w3-button w3-margin-bottom w3-theme" onclick="(function(){   
+//The Immediately Invoked Function Expression or 'IIFE' is just so we don't pollute the global namespace with our code for this demo.
+
+   var dialog = CD.alert('<p>Lets lock it down boys...</p><p>For 5 secconds</p>',
+      null,
+      'none' );
+   setTimeout(function(){dialog.destroy();}, 5000);    
+
+})();">Try it »</button>
+                <button class="w3-block w3-button w3-margin-bottom w3-theme" onclick="viewCode(this);">View Code</button>
+            </div></div>   
+
+            <div class="w3-third"><div class="w3-container w3-card w3-white w3-round w3-margin">
+                <h4>Collecting Input</h4>
+                <p>Ask user for some input, then make use of it in the call back.</p>
+                <button class="w3-block w3-button w3-margin-bottom w3-theme" onclick="CD.alert('Tell me your name <input type=\'text\' />',
+    'Input Box',
+    null,
+    function(ok,dialog){
+        var input = dialog.querySelector('input').value; 
+        CD.alert('Hi ' + input + '. Hope you\'re enjoying this JS library!');
+    }
+);">Try it »</button>
+                <button class="w3-block w3-button w3-margin-bottom w3-theme" onclick="viewCode(this);">View Code</button>
+            </div></div>    
+ 
    
         </div>
     </div>
