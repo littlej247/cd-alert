@@ -13,6 +13,28 @@
          );
       }
   </script>
+  <style>
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+            animation: spin 2s linear infinite;
+        }
+
+        /* Safari */
+        @-webkit-keyframes spin {
+          0% { -webkit-transform: rotate(0deg); }
+          100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+  </style>  
 </head>
 <body class="w3-theme-d4">
     <div class="w3-content" style="max-width:1400px">
@@ -55,12 +77,12 @@
             </div></div>
     
             <div class="w3-third"><div class="w3-container w3-card w3-white w3-round w3-margin">
-                <h4>Buttonless Footer</h4>
+                <h4>Buttonless Footer for Loading</h4>
                 <p>Setting the third argument to 'none' hides the buttons in the footer. Usefull for making loading screens.</p>
                 <button class="w3-block w3-button w3-margin-bottom w3-theme" onclick="(function(){   
 //The Immediately Invoked Function Expression or 'IIFE' is just so we don't pollute the global namespace with our code for this demo.
 
-   var dialog = CD.alert('<p>Lets lock it down boys...</p><p>For 5 secconds</p>',
+   var dialog = CD.alert('<h2>Lets lock it down people...</h2><p>For 5 secconds</p><div class=\'loader w3-center\'></div>',
       null,
       'none' );
    setTimeout(function(){dialog.destroy();}, 5000);    
@@ -68,6 +90,24 @@
 })();">Try it »</button>
                 <button class="w3-block w3-button w3-margin-bottom w3-theme" onclick="viewCode(this);">View Code</button>
             </div></div>   
+
+            <div class="w3-third"><div class="w3-container w3-card w3-white w3-round w3-margin">
+                <h4>Changing the Body After Initialization then Destroy</h4>
+                <p>The alert function returns the appended dialog element with additional functions and references added. Such as 'destroy()' and 'body'. </p>
+                <button class="w3-block w3-button w3-margin-bottom w3-theme" onclick="(function(){
+//The Immediately Invoked Function Expression or 'IIFE' is just so we don't pollute the global namespace with our code for this demo.                    
+    var dialog = CD.alert('When initialized I may say one thing.',
+    'Modifying after initialization'
+    );
+    setTimeout(function(){  dialog.body.innerText = 'but then say another later on...';                         }, 1500); 
+    setTimeout(function(){  dialog.body.innerText = 'and then another. Until..';                                }, 3000); 
+    setTimeout(function(){  dialog.body.innerHTML = '<h1 class=\'w3-center w3-xxxlarge w3-yellow\'>POW!!</h1>'; }, 4500); 
+    setTimeout(function(){  dialog.body.querySelector('h1').innerText = 'LIGHTS OUT!..';                      }, 6000); 
+    setTimeout(function(){  dialog.destroy();                                                                   }, 7000);
+
+})();">Try it »</button>
+                <button class="w3-block w3-button w3-margin-bottom w3-theme" onclick="viewCode(this);">View Code</button>
+            </div></div>               
 
             <div class="w3-third"><div class="w3-container w3-card w3-white w3-round w3-margin">
                 <h4>Collecting Input</h4>
